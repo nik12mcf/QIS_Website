@@ -1,0 +1,481 @@
+<!--
+Created by Quantitative Investment Society
+Description: 
+-->
+<head>
+	<meta name="keywords" content="" />
+	<meta name="description" content="" />
+	<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+	<title>Quantitative Investment Society</title>
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:400,300,600,700|Archivo+Narrow:400,700" rel="stylesheet" type="text/css">
+	<link href="style.css" rel="stylesheet" type="text/css" media="screen" />
+	<script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+	<script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body>
+<div id="menu-wrapper">
+	<div id="menu">
+		<ul>
+			<li class="current_page_item"><a href="#">Homepage</a></li>
+			<li><a href="about.html">About</a></li>
+			<li><a href="resources.html">Resources</a></li>
+			<li><a href="join.html">Join</a></li>
+		</ul>
+	</div>
+	<!-- end #menu --> 
+</div>
+<div id="header-wrapper">
+	<div id="header">
+		<div id="logo">
+			<h1><a href="#">Quantitative Investment Society</a></h1>
+		</div>
+	</div>
+</div>
+<div id="wrapper"> 
+	<!-- end #header -->
+	<div id="page">
+		<div id="page-bgtop">
+			<div id="page-bgbtm">
+				<!-- end #sidebar -->
+				<div id="content">
+
+					<div class="post">
+						<div class="entry">
+							<div class="monthly_title">
+								<h2>Weekly Tear Sheet </h2>
+
+								<p>August 2018</p>
+
+								<p>&nbsp; | &nbsp;</p>
+
+								<p id="YTD"></p>
+								<p> YTD: &nbsp;</p>
+
+								<p>&nbsp; | &nbsp;</p>
+
+								<p id="MTD"></p>
+								<p> MTD: &nbsp;</p>
+							</div>
+
+							<script>
+								/*FLAG*/
+								document.getElementById("MTD").innerHTML = 3.25;
+								/*FLAG*/
+								document.getElementById("YTD").innerHTML = 4.77;
+							</script>
+						</div>
+					</div>
+
+					<div class="border"></div>
+
+					<div class="post">
+						<div class="entry">
+							<div id="histogram1" style="width:49%;height:300px;"></div>
+
+							<div id="chartContainer" style="width:49%;height:300px;padding-top:26px;"></div>
+
+							<div style="clear: both;">&nbsp;</div>
+
+							<!-- 
+								Javascript code to create histogram of security
+								performances.
+							-->
+							<script>
+								histogram1 = document.getElementById('histogram1');
+
+								/*FLAG*/
+								var x1 = ["MSFT", "TSLA", "DPW", "TWTR", "SPY", "BRK.B"];
+								var x2 = [];
+								/*FLAG*/
+								var y1 = [0.25, 2.5, 3.75, 5.5, 1.25, 7.25];
+								var y2 = [];
+
+								/*
+									First trace is Portfolio Stock Performance, no units since it is
+									a percentage. This is the percentage increase of our portfolio
+									due to the particular security.
+								*/
+								var trace1 = {
+								  x: x1,
+								  y: y1,
+								  name: 'PSP',
+								  autobinx: true,
+								  autobiny: true, 
+								  histnorm: "count", 
+								  marker: {
+								    color: "rgba(255, 100, 102, 0.7)", 
+								     line: {
+								      color:  "rgba(255, 100, 102, 1)"
+								    }
+								  },  
+								  opacity: 0.5, 
+								  type: "bar", 
+								};
+								/*
+									Second trace is Actual Stock Performance, no units since it is
+									a percentage. This is the percentage increase of the particular
+									security for the current week.
+								*/
+								var trace2 = {
+								  x: x2,
+								  y: y2, 
+								  autobinx: true, 
+								  marker: {
+								          color: "rgba(100, 200, 102, 0.7)",
+								           line: {
+								            color:  "rgba(100, 200, 102, 1)"
+								    } 
+								       }, 
+								  name: "ASP", 
+								  opacity: 0.75, 
+								  type: "bar"
+								};
+
+								var data = [trace1, trace2];
+								var layout = {
+								  bargap: 0.05, 
+								  bargroupgap: 0.2, 
+								  barmode: "overlay", 
+								  title: {
+								  	text: "August Performance Attribution",
+								  	font: {
+								  		fontFamily: "Open Sans",
+								  		size: 24,
+								  		color: '#000000'
+								  	}
+								  },
+								  xaxis: {title: "Ticker Symbol"}, 
+								  yaxis: {title: "Stock Performance (%)"}
+								};
+
+								Plotly.newPlot(histogram1, data, layout);
+							</script>
+
+							<!-- 
+								Javascript code to create pie chart displaying
+								portfolio risk exposure.
+							-->
+							<script>
+
+								dps = [{y: 79.45, label: "Google"}, {y: 7.31, label: "Bing"}, {y: 7.06, label: "Baidu"}, {y: 4.91, label: "Yahoo"}, {y: 1.26, label: "Others"}]
+
+								window.onload = function() {
+								var chart = new CanvasJS.Chart("chartContainer", {
+									animationEnabled: true,
+									title: {
+										text: "Risk Exposure",
+										fontFamily: "Open Sans"
+									},
+									data: [{
+										type: "pie",
+										startAngle: 10,
+										yValueFormatString: "##0.00\"%\"",
+										indexLabel: "{label} {y}",
+										dataPoints: dps
+									}]
+								});
+								chart.render();
+
+								}
+								</script>
+						</div>
+					</div>
+
+					<div class="border"></div>
+
+					<div style="clear: both;">&nbsp;</div>
+
+					<div class="post">
+						<div class="entry">
+							<div class="tear_box1">
+								<h2>Statistics</h2>
+
+								<div class="tear_flex_box">
+									<div>Annualized Return</div>
+									<div id="annualized_return" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Maximum Loss Week</div>
+									<div id="maximum_loss" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Gain to Pain</div>
+									<div id="gain_to_pain" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Current Losing Streak</div>
+									<div id="current_losing_streak" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>annualized_std_deviation</div>
+									<div id="annualized_std_deviation" style="text-align:right;"></div>
+								</div>
+
+								<script>
+									document.getElementById("annualized_return").innerHTML = "1.02%";
+									document.getElementById("maximum_loss").innerHTML = "-34.34%";
+									document.getElementById("gain_to_pain").innerHTML = "0.03%";
+									document.getElementById("current_losing_streak").innerHTML = "-31.91%";
+									document.getElementById("annualized_std_deviation").innerHTML = "4.77%";
+								</script>
+							</div>
+
+							<div class="tear_box2">
+								<h2>Program Facts</h2>
+
+								<div class="tear_flex_box">
+									<div>Average Holding Period</div>
+									<div id="average_holding_period" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Average Margin to Equity</div>
+									<div id="average_margin_to_equity" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Strategy AUM</div>
+									<div id="strategy_aum" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Futures Market Universe</div>
+									<div id="futures_market_universe" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Equities Universe</div>
+									<div id="equities_universe" style="text-align:right;"></div>
+								</div>
+
+								<script>
+									document.getElementById("average_holding_period").innerHTML = "-10 months";
+									document.getElementById("average_margin_to_equity").innerHTML = "12%";
+									document.getElementById("strategy_aum").innerHTML = "5M";
+									document.getElementById("futures_market_universe").innerHTML = "150";
+									document.getElementById("equities_universe").innerHTML = "100";
+								</script>
+							</div>
+
+							<div class="tear_box1">
+								<h2>Correlation</h2>
+
+								<div class="tear_flex_box">
+									<div>vs. Commodities</div>
+									<div id="vs_commodities" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>vs. Hedge Fund Index</div>
+									<div id="vs_hedge_fund_index" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>vs. SP 500 Index</div>
+									<div id="vs_sp_500_index" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>vs. T-Note</div>
+									<div id="vs_t-note" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>vs. Systematic CTA</div>
+									<div id="vs_systematic_cta" style="text-align:right;"></div>
+								</div>
+
+								<script>
+									document.getElementById("vs_commodities").innerHTML = "-17%";
+									document.getElementById("vs_hedge_fund_index").innerHTML = "-4%";
+									document.getElementById("vs_sp_500_index").innerHTML = "-13%";
+									document.getElementById("vs_t-note").innerHTML = "24%";
+									document.getElementById("vs_systematic_cta").innerHTML = "60%";
+								</script>
+							</div>
+
+							<div class="tear_box2">
+								<h2>Investment Terms</h2>
+
+								<div class="tear_flex_box">
+									<div>Minimum Investment</div>
+									<div id="minimum_investment" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Management Fee</div>
+									<div id="management_fee" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Performance Fee</div>
+									<div id="performance_fee" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Liquidity</div>
+									<div id="liquidity" style="text-align:right;"></div>
+								</div>
+
+								<div class="tear_flex_box">
+									<div>Lock-up</div>
+									<div id="lock-up" style="text-align:right;"></div>
+								</div>
+
+								<script>
+									document.getElementById("minimum_investment").innerHTML = "$100k Fund";
+									document.getElementById("management_fee").innerHTML = "1%";
+									document.getElementById("performance_fee").innerHTML = "20%";
+									document.getElementById("liquidity").innerHTML = "Monthly(Fund)";
+									document.getElementById("lock-up").innerHTML = "None";
+								</script>
+							</div>
+
+						</div>
+					</div>
+
+					<div class="post">
+						<div class="entry">
+							<div class="dataTable">
+								<h2>Net Monthly Returns, Past 5 Years</h2>
+
+								<div id="myDynamicTable"></div>
+
+								<script>
+									var myTableDiv = document.getElementById("myDynamicTable");
+
+									var table = document.createElement('TABLE');
+									table.border = '1';
+
+									var tableBody = document.createElement('TBODY');
+									table.appendChild(tableBody);
+
+									var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+									/*FLAG*/
+									var years = ["2015", "2016", "2017", "2018", "2019", "2020"];
+
+									/*FLAG*/
+									var monthData = [[7.96,-7.15,-1.96,-1.65,-2.38,6.12,-3.84,8.00,-9.25,3.20,5.60,12.21], [-1.79,1.93,-3.77,-0.18,5.22,-6.99,4.82,3.35,-1.45,3.82,12.84,5.92], [-3.00,2.76,3.35,4.75,2.26,-6.94,7.54,-3.72,-2.48,3.48,1.82,2.47], [4.83,2.17,-3.37,4.71,-5.38,4.82,3.89,6.54,2.23,-4.83,-5.83,-2.85], [5.13,2.76,7.87,4.56,-5.23,6.43,7.98,4.56,9.00,-10.25,-6.75,12.20]];
+
+								  	var ytdData = [-1.34,-6.83,3.73,-4.87,5.92];
+
+									for (var i = 0; i < 6; i++) {
+									    var tr = document.createElement('TR');
+									    tableBody.appendChild(tr);
+
+									    for (var j = 0; j < 14; j++) {
+									    	var td = document.createElement('TD');
+									    	td.width = '75';
+									    	td.align = 'center';
+									    	if(i == 0 && j > 0 && j < 13)
+									    	{
+									      		td.style.fontWeight = 'bold';
+									      		td.appendChild(document.createTextNode(months[j-1]));
+									    	}
+									    	else if(i > 0 && j == 0)
+									    	{
+									      		td.style.fontWeight = 'bold';
+									      		td.appendChild(document.createTextNode(years[i-1]));
+									    	}
+									    	else if(i > 0 && j > 0 && j < 13)
+									     	{
+									      		if(monthData[i-1][j-1] < 0) { td.style.color = "#FF0000"; }
+									      		td.appendChild(document.createTextNode(monthData[i-1][j-1]));
+									    	}
+									    	else if(i > 0 && j == 13)
+									    	{
+									    		if(ytdData[i-1] < 0) { td.style.color = "#FF0000"; }
+									    		td.appendChild(document.createTextNode(ytdData[i-1]));
+									    	}
+
+									    	tr.appendChild(td);
+									    }
+									}
+
+									/*Finally display the x-axis label for YTD*/
+									table.rows[0].cells[13].innerHTML = "YTD";
+									table.rows[0].cells[13].style.fontWeight = 'bold';
+
+									myTableDiv.appendChild(table);	
+								</script>					
+							</div>
+						</div>
+					</div>
+
+					<div class="post">
+						<div class="entry">
+							<div class="dataTable">
+								<h2>Value of an Initial $1,000 Investment</h2>
+
+								<div id="myDynamicGraph" style="width:100%;height:360px;"></div>
+
+								<script>
+									/*FLAG*/
+									var y1 = [7.96,-7.15,-1.96,-1.65,-2.38,6.12,-3.84,8.00,-9.25,3.20,5.60,12.21, -1.79,1.93,-3.77,-0.18,5.22,-6.99,4.82,3.35,-1.45,3.82,12.84,5.92, -3.00,2.76,3.35,4.75,2.26,-6.94,7.54,-3.72,-2.48,3.48,1.82,2.47, 4.83,2.17,-3.37,4.71,-5.38,4.82,3.89,6.54,2.23,-4.83,-5.83,-2.85, 5.13,2.76,7.87,4.56,-5.23,6.43,7.98,4.56,9.00,-10.25,-6.75,12.20];
+
+									var dataPoints = [];
+
+									var investment = 1000;
+
+									dataPoints.push({
+										x: new Date(2015, 12, 01),
+										y: investment
+									});
+
+									for (var i = 0; i < 5; i++) 
+									{
+										for (var j = 0; j < 12; j++)
+										{
+											investment = investment * (1 + (y1[(i*12) + j] / 100));
+											dataPoints.push({
+												x: new Date(2015+i, 01+j, 01),
+												y: investment
+											});
+										}
+									}
+
+									var chart = new CanvasJS.Chart("myDynamicGraph", {
+										title: {
+											text: ""
+										},
+										data: [{
+									    	type: "line",
+									    	dataPoints: dataPoints
+									  	}],
+										axisX:{
+											title:"Time Period",
+											minimum: new Date(2015, 12, 01)
+										},
+										axisY:{
+											title:"Equity"
+										}
+									});
+
+									chart.render();	
+								</script>					
+							</div>
+						</div>
+					</div>
+
+					<div class="border"></div>
+
+				</div>
+				<!-- end #content -->
+				<div style="clear: both;">&nbsp;</div>
+			</div>
+		</div>
+	</div>
+	<!-- end #page --> 
+</div>
+<div id="footer">
+	<p>&copy; Quantitative Investment Society at the University of Michigan | Design by <a>QIS</a>.</p>
+</div>
+<!-- end #footer -->
+</body>
+</html>
